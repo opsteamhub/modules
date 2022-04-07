@@ -9,6 +9,7 @@
 * Elastic IP
 
 ##### Default Create subnets /22
+##### Para criar outros Cidrs, alterar o newbit de acordo com a documentação da function cidrsubnet https://www.terraform.io/language/functions/cidrsubnet
 
 ##### Exemplo adicionando tags e adicionando rotas na route table
 
