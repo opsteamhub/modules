@@ -8,7 +8,7 @@
 * Route Table
 * Elastic IP
 
-##### Create subnets /22
+##### Default Create subnets /22
 
 ##### Exemplo adicionando tags e adicionando rotas na route table
 
