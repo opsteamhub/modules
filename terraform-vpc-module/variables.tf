@@ -52,5 +52,5 @@ variable "routes" {
 
 variable "new_bit" {
   type = number
-  default = 4
+  default = 2
 }
