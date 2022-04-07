@@ -41,9 +41,11 @@ tags = {
     key = "value"
 }
 
-routes   = [{
+routes   = [
+              {
                cidr_block = "",
                transit_gateway_id = "tgw-xxxxxxxxx"      
-            }]
+              }
+            ]
 
 ```
