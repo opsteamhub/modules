@@ -51,3 +51,14 @@ resource "aws_route_table" "nat_rt" {
   }
 
 }
+
+
+resource "aws_route_table_association" "eks_private_rt_association" {
+  subnet_id      = aws_subnet.private[0].id 
+  route_table_id = aws_route_table.nat_rt.id
+}
+
+resource "aws_route_table_association" "eks_public_rt_association_1c" {
+  subnet_id      = aws_subnet.public[0].id
+  route_table_id = aws_route_table.public_rt.id
+}
