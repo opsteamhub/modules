@@ -52,7 +52,7 @@ variable "routes" {
 
 variable "new_bit" {
   type = number
-  default = 2
+  default = 4
 }
 
 variable "terraform_git_repo" {
