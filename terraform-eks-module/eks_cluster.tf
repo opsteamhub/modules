@@ -10,7 +10,7 @@ resource "aws_eks_cluster" "eks_cluster" {
     endpoint_private_access = var.endpoint_private_access
     endpoint_public_access  = var.endpoint_public_access
 
-    subnet_ids = var.private_subnets_id
+    subnet_ids = data.aws_subnet_ids.private.ids 
   }
 
   timeouts {
@@ -22,4 +22,27 @@ resource "aws_eks_cluster" "eks_cluster" {
     aws_iam_role_policy_attachment.eks_cluster_service
   ]
 
+}
+
+data "aws_vpc" "vpc" {
+  filter {
+    name = "tag:environment"
+    values = [var.environment]
+  }
+}
+
+data "aws_subnet_ids" "public" {
+  vpc_id = data.aws_vpc.vpc.id
+
+  tags = {
+    tier = var.tag_public_subnet
+  }
+}
+
+data "aws_subnet_ids" "private" {
+  vpc_id = data.aws_vpc.vpc.id
+
+  tags = {
+    tier = var.tag_private_subnet
+  }
 }

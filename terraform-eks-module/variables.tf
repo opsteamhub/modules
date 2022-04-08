@@ -2,14 +2,13 @@ variable "name" {}
 
 variable "region" {}
 
-variable "vpc_id" {}
-
 variable "private_subnets_id" {
   type = list(string)
   default = []  
 }
 
 variable "public_subnets_id" {
+  type = list(string)
   default = []  
 }
 
@@ -18,19 +17,19 @@ variable "kubernetes_version" {
 }
 
 variable "desired_size" {
-  default = 2
+  default = 3
 }
 
 variable "max_size" {
-  default = 4
+  default = 6
 }
 
 variable "min_size" {
-  default = 2
+  default = 3
 }
 
 variable "instance_types" {
-  default = "t3.small"
+  default = "t3.medium"
 }
 
 variable "environment" {}
@@ -69,3 +68,10 @@ variable "tags" {
   type        = map(string)
 }
 
+variable "tag_private_subnet" {
+  default = "private" 
+}
+
+variable "tag_public_subnet" {
+  default = "public"  
+}

@@ -15,6 +15,7 @@ resource "aws_subnet" "private" {
     {
       Name                              = join("-", [var.environment, "private", "subnet", var.name, substr(element(var.availability_zones, count.index), 8, 10)])
       "kubernetes.io/role/internal-elb" = "1"
+      tier                              = "private"
     },
   )
 }

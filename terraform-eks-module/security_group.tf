@@ -9,7 +9,7 @@ resource "aws_security_group_rule" "eks_sg_ingress_rule" {
 }
 
 resource "aws_security_group" "node_group_sg" {
-  vpc_id      = var.vpc_id
+  vpc_id      = data.aws_vpc.vpc.id
   name        = join("-", ["SG", local.name])
   description = "Security Group Launch Template"
 
