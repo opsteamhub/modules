@@ -5,7 +5,6 @@ locals {
   public_subnet_count      = local.enabled && var.max_subnet_count == 0 ? length(flatten(data.aws_availability_zones.available.*.names)) : var.max_subnet_count
   private_subnet_count     = local.enabled && var.max_subnet_count == 0 ? length(flatten(data.aws_availability_zones.available.*.names)) : var.max_subnet_count
   availability_zones_count = local.enabled ? length(var.availability_zones) : 0
-  terraform-git-repo = var.terraform_git_repo
 }
 
 data "aws_availability_zones" "available" {
