@@ -5,8 +5,7 @@ provider "aws" {
       environment   = var.environment
       owner         = var.owner
       provisionedBy = var.provisioner
-      createdAt     = local.date
-      #terraform-base-path = replace(path.cwd, "/^.*?(${local.terraform-git-repo}\\/)/", "$1")
+      terraform-base-path = replace(path.cwd, "/^.*?(${local.terraform-git-repo}\\/)/", "$1")
     }
   }
 }
