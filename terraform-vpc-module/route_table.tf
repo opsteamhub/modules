@@ -26,7 +26,7 @@ resource "aws_route_table" "public_rt" {
 }
 
 
-resource "aws_route_table" "nat_rt" {
+resource "aws_route_table" "private_rt" {
   vpc_id = aws_vpc.vpc.id
 
   route {
@@ -55,14 +55,12 @@ resource "aws_route_table" "nat_rt" {
 
 resource "aws_route_table_association" "eks_private_rt_association" {
   count = local.availability_zones_count
-  #subnet_id      = aws_subnet.private[0].id 
   subnet_id      = element(aws_subnet.private.*.id, count.index)
-  route_table_id = aws_route_table.nat_rt.id
+  route_table_id = aws_route_table.private_rt.id
 }
 
-resource "aws_route_table_association" "eks_public_rt_association_1c" {
+resource "aws_route_table_association" "eks_public_rt_association" {
   count = local.availability_zones_count
-  #subnet_id      = aws_subnet.public[0].id
   subnet_id      = element(aws_subnet.public.*.id, count.index)
   route_table_id = aws_route_table.public_rt.id
 }
