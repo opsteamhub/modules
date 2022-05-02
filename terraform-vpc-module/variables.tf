@@ -23,13 +23,8 @@ variable "availability_zones" {
   }
 }
 
-variable "owner" {
-  default = "OpsTeam"
-}
-
 variable "provisioner" {
   default = "Terraform"
-
 }
 
 variable "tags" {
