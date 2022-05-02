@@ -75,3 +75,7 @@ variable "tag_private_subnet" {
 variable "tag_public_subnet" {
   default = "public"  
 }
+
+variable "volume_size" {
+  default = 10
+}

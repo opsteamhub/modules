@@ -14,7 +14,7 @@ resource "aws_launch_template" "node" {
     device_name = "/dev/sda1"
 
     ebs {
-      volume_size           = 10
+      volume_size           = var.volume_size 
       delete_on_termination = true
       volume_type           = "gp2"
     }
