@@ -54,10 +54,6 @@ variable "endpoint_public_access" {
   default = true
 }
 
-variable "owner" {
-  default = "OpsTeam"
-}
-
 variable "provisioner" {
   default = "Terraform"
 }

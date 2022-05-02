@@ -3,7 +3,6 @@ provider "aws" {
   default_tags {
     tags = {
       environment   = var.environment
-      owner         = var.owner
       provisionedBy = var.provisioner
     }
   }
