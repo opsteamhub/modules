@@ -20,8 +20,8 @@ resource "aws_eks_node_group" "eks_node_group" {
   dynamic "taint" {
     for_each = var.taints
     content {
-      key = taint.value.key
-      value = taint.value.value
+      key    = taint.value.key
+      value  = taint.value.value
       effect = taint.value.effect
     }
   }
