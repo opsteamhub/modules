@@ -17,6 +17,22 @@ resource "aws_eks_node_group" "eks_node_group" {
     min_size     = var.min_size
   }
 
+  dynamic "taint" {
+    for_each = var.taints
+    content {
+      key = taint.value.key
+      value = taint.value.value
+      effect = taint.value.effect
+    }
+  }
+
+  #taint {
+  #  key    = "elasticsearch"
+  #  value  = true
+  #  effect = "NO_SCHEDULE"
+  #}
+
+
   labels = {
     lifecycle = "OnDemand"
   }

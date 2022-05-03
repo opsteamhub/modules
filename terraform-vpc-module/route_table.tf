@@ -49,7 +49,6 @@ resource "aws_route_table" "private_rt" {
   tags = {
     Name = format("%s-private-rt", local.name)
   }
-
 }
 
 

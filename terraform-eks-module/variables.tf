@@ -75,3 +75,12 @@ variable "tag_public_subnet" {
 variable "volume_size" {
   default = 10
 }
+
+variable "taints" {
+  type = list(object({
+    key     = optional(string)
+    value   = optional(string)
+    effect = optional(string)
+  }))
+  default = []
+}

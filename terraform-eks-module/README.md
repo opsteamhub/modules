@@ -5,17 +5,15 @@
 ```
 variable "name" {}
 variable "region" {}
-variable "private_subnets_id" {}
-variable "vpc_id" {}
 variable "environment" {}
+variable "tag_private_subnet" {}
 
 module "eks" {
   source             = "github.com/opsteamhub/modules/tree/master/terraform-eks-module"
   name               = var.name
   region             = var.region
-  private_subnets_id = var.private_subnets_id
-  vpc_id             = var.vpc_id
   environment        = var.environment   
+  tag_private_subnet = var.tag_private_subnet
 }
 ```
 
@@ -24,7 +22,6 @@ module "eks" {
 ```
 name               = "name_cluster"
 region             = "aws_region"
-private_subnets_id = ["subnet-xxxxxx", "subnet-xxxxxx", "subnet-xxxxxx"]
-vpc_id             = "vpc-xxxxx"
-environment        = "dev"
+environment        = "production or staging"
+tag_private_subnet = "private or public"
 ```

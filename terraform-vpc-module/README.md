@@ -46,7 +46,7 @@ tags = {
 
 routes   = [
               {
-               cidr_block = "",c
+               cidr_block = "",
                transit_gateway_id = "tgw-xxxxxxxxx"      
               }
             ]
