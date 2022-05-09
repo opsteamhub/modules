@@ -28,6 +28,10 @@ variable "min_size" {
   default = 3
 }
 
+variable "instance_types" {
+  default = "t3.medium"
+}
+
 variable "environment" {}
 
 variable "ami_id" {
@@ -76,26 +80,7 @@ variable "taints" {
   type = list(object({
     key     = optional(string)
     value   = optional(string)
-    effect  = optional(string)
+    effect = optional(string)
   }))
   default = []
-}
-
-variable "instance_types" {
-  default = "t3.medium"
-}
-
-variable "scaling_config" {
-  type = list(object({
-    desired_size = optional(number)
-    min_size     = optional(number)
-    max_size     = optional(number)
-  }))
-  default =  [
-    {
-    desired_size = 1
-    min_size     = 1
-    max_size     = 1
-    }
-  ]
 }
