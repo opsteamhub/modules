@@ -1,5 +1,5 @@
 locals {
-  name     = join("-", [var.environment, var.name])
+  name      = join("-", [var.environment, var.name])
 }
 
 

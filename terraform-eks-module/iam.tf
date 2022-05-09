@@ -27,7 +27,7 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_service" {
   role       = aws_iam_role.eks_master_role.name
 }
 
-####IAM NODE GROUP####
+####IAM NODE GROUP DEFAULT####
 
 
 resource "aws_iam_role" "eks_node_role" {
@@ -233,4 +233,48 @@ resource "aws_iam_role_policy_attachment" "ingress_AmazonEKSWorkerNodePolicy" {
 resource "aws_iam_role_policy_attachment" "ingress_AmazonEKS_CNI_Policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   role       = aws_iam_role.eks_alb_ingress_controller.name
+}
+
+####IAM NODE GROUP DYNAMIC####
+
+
+resource "aws_iam_role" "eks_node_role_dynamic" {
+  for_each = var.node_groups
+  name = join("-", ["role-node", each.key])
+
+  assume_role_policy = jsonencode({
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      }
+    }]
+    Version = "2012-10-17"
+  })
+
+}
+
+resource "aws_iam_role_policy_attachment" "eks_AmazonEKSWorkerNodePolicy_dynamic" {
+  for_each = var.node_groups
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  role       = aws_iam_role.eks_node_role_dynamic[each.key].name
+}
+
+resource "aws_iam_role_policy_attachment" "eks_AmazonEKS_CNI_Policy_dynamic" {
+  for_each = var.node_groups
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  role       = aws_iam_role.eks_node_role_dynamic[each.key].name
+}
+
+resource "aws_iam_role_policy_attachment" "eks_AmazonEC2ContainerRegistryReadOnly_dynamic" {
+  for_each = var.node_groups
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = aws_iam_role.eks_node_role_dynamic[each.key].name
+}
+
+resource "aws_iam_role_policy_attachment" "eks_AmazonS3ReadOnlyAccess_dynamic" {
+  for_each = var.node_groups
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+  role       = aws_iam_role.eks_node_role_dynamic[each.key].name
 }
