@@ -3,7 +3,7 @@ resource "aws_subnet" "public" {
   vpc_id = aws_vpc.vpc.id
   cidr_block = cidrsubnet(
     signum(length(var.cidr_block)) == 1 ? var.cidr_block : join("", aws_vpc.vpc.*.cidr_block),
-    ceil(log(local.public_subnet_count * var.new_bit, 2)),
+    ceil(log(local.public_subnet_count * var.new_bit, var.net_num)),
     local.public_subnet_count + count.index
   )
 

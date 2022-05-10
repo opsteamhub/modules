@@ -50,6 +50,11 @@ variable "new_bit" {
   default = 4
 }
 
+variable "net_num" {
+  type = number
+  default = 2
+}
+
 variable "terraform_git_repo" {
   default = "terraform-vpc-module"
 }
