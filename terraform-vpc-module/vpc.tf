@@ -4,9 +4,13 @@ resource "aws_vpc" "vpc" {
   enable_dns_hostnames = true
   enable_dns_support   = true
 
-  tags = {
-    Name = local.name
-  }
+  tags = merge(
+    var.tags,
+    {
+      Name = local.name
+    },
+  )
+
 }
 
  
