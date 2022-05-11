@@ -48,7 +48,7 @@ resource "aws_launch_template" "node" {
     resource_type = "instance"
 
     tags = {
-      Name = format("%s-node-group", each.key)
+      Name = join("-", [var.environment, each.key, "node-group"])
     }
   }
 }
