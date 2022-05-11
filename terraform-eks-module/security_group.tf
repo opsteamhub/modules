@@ -9,8 +9,10 @@ resource "aws_security_group_rule" "eks_sg_ingress_rule" {
 }
 
 resource "aws_security_group" "node_group_sg" {
+  for_each = var.node_groups
+
   vpc_id      = data.aws_vpc.vpc.id
-  name        = join("-", ["SG", local.name])
+  name        = join("-", ["SG", var.environment, each.key])
   description = "Security Group Launch Template"
 
   ingress {
@@ -70,6 +72,7 @@ resource "aws_security_group" "node_group_sg" {
 
 
   tags = {
-    "Name" = join("-", ["SG", local.name])
+    "Name" = join("-", ["SG", var.environment, each.key])
   }
 }
+

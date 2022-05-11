@@ -27,46 +27,6 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_service" {
   role       = aws_iam_role.eks_master_role.name
 }
 
-####IAM NODE GROUP####
-
-
-resource "aws_iam_role" "eks_node_role" {
-  name = join("-", ["role-node", local.name])
-
-  assume_role_policy = jsonencode({
-    Statement = [{
-      Action = "sts:AssumeRole"
-      Effect = "Allow"
-      Principal = {
-        Service = "ec2.amazonaws.com"
-      }
-    }]
-    Version = "2012-10-17"
-  })
-
-}
-
-resource "aws_iam_role_policy_attachment" "eks_AmazonEKSWorkerNodePolicy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-  role       = aws_iam_role.eks_node_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "eks_AmazonEKS_CNI_Policy" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
-  role       = aws_iam_role.eks_node_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "eks_AmazonEC2ContainerRegistryReadOnly" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
-  role       = aws_iam_role.eks_node_role.name
-}
-
-resource "aws_iam_role_policy_attachment" "eks_AmazonS3ReadOnlyAccess" {
-  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
-  role       = aws_iam_role.eks_node_role.name
-}
-
-
 #####INGRESS CONTROLLER#######
 resource "aws_iam_policy" "ALBIngressControllerIAMPolicy" {
   name   = join("-", ["policy-IngressController", local.name])
@@ -233,4 +193,48 @@ resource "aws_iam_role_policy_attachment" "ingress_AmazonEKSWorkerNodePolicy" {
 resource "aws_iam_role_policy_attachment" "ingress_AmazonEKS_CNI_Policy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
   role       = aws_iam_role.eks_alb_ingress_controller.name
+}
+
+####IAM NODE GROUP ####
+
+
+resource "aws_iam_role" "eks_node_role" {
+  for_each = var.node_groups
+  name = join("-", ["role-node", each.key])
+
+  assume_role_policy = jsonencode({
+    Statement = [{
+      Action = "sts:AssumeRole"
+      Effect = "Allow"
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      }
+    }]
+    Version = "2012-10-17"
+  })
+
+}
+
+resource "aws_iam_role_policy_attachment" "eks_AmazonEKSWorkerNodePolicy" {
+  for_each = var.node_groups
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
+  role       = aws_iam_role.eks_node_role[each.key].name
+}
+
+resource "aws_iam_role_policy_attachment" "eks_AmazonEKS_CNI_Policy" {
+  for_each = var.node_groups
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  role       = aws_iam_role.eks_node_role[each.key].name
+}
+
+resource "aws_iam_role_policy_attachment" "eks_AmazonEC2ContainerRegistryReadOnly" {
+  for_each = var.node_groups
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+  role       = aws_iam_role.eks_node_role[each.key].name
+}
+
+resource "aws_iam_role_policy_attachment" "eks_AmazonS3ReadOnlyAccess" {
+  for_each = var.node_groups
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+  role       = aws_iam_role.eks_node_role[each.key].name
 }
