@@ -35,9 +35,9 @@ node_groups = {
                     volume_size    = 40
                     taint          = [ 
                                        {
-                                        key    = "elasticsearch"
-                                        value  = "true"
-                                        effect = "NO_SCHEDULE"
+                                         key    = "elasticsearch"
+                                         value  = "true"
+                                         effect = "NO_SCHEDULE"
                                        }                           
                     ]
                     scaling_config = [
