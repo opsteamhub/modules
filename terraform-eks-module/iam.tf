@@ -200,7 +200,7 @@ resource "aws_iam_role_policy_attachment" "ingress_AmazonEKS_CNI_Policy" {
 
 resource "aws_iam_role" "eks_node_role" {
   for_each = var.node_groups
-  name = join("-", ["role-node", each.key])
+  name = join("-", ["role-node", var.environment, each.key])
 
   assume_role_policy = jsonencode({
     Statement = [{
