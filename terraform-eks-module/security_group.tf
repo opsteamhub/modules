@@ -31,6 +31,15 @@ resource "aws_security_group" "node_group_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+   ingress {
+    description = "HTTPS Port"
+    from_port   = 4443
+    to_port     = 4443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+ 
+
   ingress {
     description = "TCP Vault Secrets Webhook"
     from_port   = 8443
