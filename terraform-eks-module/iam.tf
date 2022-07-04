@@ -238,3 +238,38 @@ resource "aws_iam_role_policy_attachment" "eks_AmazonS3ReadOnlyAccess" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
   role       = aws_iam_role.eks_node_role[each.key].name
 }
+
+resource "aws_iam_policy" "external_dns" {
+  name   = join("-", ["external-dns", local.name])
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Effect": "Allow",
+          "Action": [
+              "route53:ChangeResourceRecordSets"
+          ],
+          "Resource": [
+              "arn:aws:route53:::hostedzone/*"
+          ]
+      },
+      {
+          "Effect": "Allow",
+          "Action": [
+              "route53:ListHostedZones",
+              "route53:ListResourceRecordSets"
+          ],
+          "Resource": [
+              "*"
+          ]
+      }
+    ]
+}
+POLICY
+}
+
+resource "aws_iam_role_policy_attachment" "external-dns" {
+  policy_arn = aws_iam_policy.external_dns.arn
+  role       = aws_iam_role.eks_node_role[each.key].name
+}
