@@ -270,6 +270,7 @@ POLICY
 }
 
 resource "aws_iam_role_policy_attachment" "external-dns" {
+  for_each = var.node_groups
   policy_arn = aws_iam_policy.external_dns.arn
   role       = aws_iam_role.eks_node_role[each.key].name
 }
