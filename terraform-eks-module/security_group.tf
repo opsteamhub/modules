@@ -73,11 +73,11 @@ resource "aws_security_group" "node_group_sg" {
   }
 
   ingress {
-  description = "All traffic "
-  from_port   = 0
-  to_port     = 0
-  protocol    = "-1"
-}
+    description = "All traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+  }
 
   egress {
     from_port   = 0
