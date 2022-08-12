@@ -1,12 +1,13 @@
 
-resource "random_uuid" "id" {
+resource "random_id" "id" {
+  byte_length = 3
 }
 
 ####IAM EKS CLUSTER#####
 
 resource "aws_iam_role" "eks_master_role" {
 
-  name = join("-", ["role-cluster", local.name, random_uuid.id.result])
+  name = join("-", ["role-cluster", local.name, random_id.id.result])
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -33,7 +34,7 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_service" {
 
 #####INGRESS CONTROLLER#######
 resource "aws_iam_policy" "ALBIngressControllerIAMPolicy" {
-  name   = join("-", ["policy-IngressController", local.name, random_uuid.id.result])
+  name   = join("-", ["policy-IngressController", local.name, random_id.id.result])
   policy = <<POLICY
 {
   "Version": "2012-10-17",
@@ -158,7 +159,7 @@ POLICY
 }
 
 resource "aws_iam_role" "eks_alb_ingress_controller" {
-  name        = join("-", ["role-ingress-controller", local.name, random_uuid.id.result])
+  name        = join("-", ["role-ingress-controller", local.name, random_id.id.result])
   description = "Permissions required by the Kubernetes AWS ALB Ingress controller to do it's job."
 
   force_detach_policies = true
@@ -204,7 +205,7 @@ resource "aws_iam_role_policy_attachment" "ingress_AmazonEKS_CNI_Policy" {
 
 resource "aws_iam_role" "eks_node_role" {
   for_each = var.node_groups
-  name = join("-", ["role-node", var.environment, each.key, random_uuid.id.result])
+  name = join("-", ["role-node", var.environment, each.key, random_id.id.result])
 
   assume_role_policy = jsonencode({
     Statement = [{
@@ -244,7 +245,7 @@ resource "aws_iam_role_policy_attachment" "eks_AmazonS3ReadOnlyAccess" {
 }
 
 resource "aws_iam_policy" "external_dns" {
-  name   = join("-", ["external-dns", local.name, random_uuid.id.result])
+  name   = join("-", ["external-dns", local.name, random_id.id.result])
   policy = <<POLICY
 {
   "Version": "2012-10-17",
