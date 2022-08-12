@@ -2,7 +2,7 @@
 resource "random_uuid" "id" {
 }
 
-####IAM EKS CLUSTER####
+####IAM EKS CLUSTER#####
 
 resource "aws_iam_role" "eks_master_role" {
 
