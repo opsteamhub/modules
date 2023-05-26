@@ -10,7 +10,7 @@ resource "aws_eks_node_group" "eks_node_group" {
     version = aws_launch_template.node[each.key].latest_version
   }
 
-  subnet_ids = data.aws_subnet_ids.private.ids 
+  subnet_ids = data.aws_subnets.private.ids 
 
   dynamic "scaling_config" {
     for_each = each.value["scaling_config"] == null ? var.scaling_config : each.value["scaling_config"]
